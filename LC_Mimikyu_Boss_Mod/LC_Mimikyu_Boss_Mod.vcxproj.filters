@@ -1,0 +1,183 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Attacks">
+      <UniqueIdentifier>{4df6cc9f-f111-4b4b-a1ff-bd8c47130457}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{8cb80eda-7273-4456-b67e-e0fa358916ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{f683ccd4-2011-4164-bb9a-7296cd9180ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asm">
+      <UniqueIdentifier>{14092f76-e3aa-47a9-93a5-f27e657e4a08}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asm\labels_sub">
+      <UniqueIdentifier>{4e93b5a7-1663-4ab6-a3ba-f6c91374cd0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asm\rom_sub">
+      <UniqueIdentifier>{b84976a2-0d0b-4d66-80c3-57b8a57151ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="asm\labels_macros">
+      <UniqueIdentifier>{90d12e87-a03a-4725-bacc-520fff27a78b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GbaState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EXE6_F_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EXE6_G_functions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="rom.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="labels.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mimikyu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="objects.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="mimikyu_star_object.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="mimikyu_shadowball_object.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="mimikyu_confuseray_object.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="labels_f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="lz4.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="dllmain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="rom.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objects.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GbaState.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_confuseray.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_move.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_playrough.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_shadow_claw.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_shadow_sneak.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_shadowball.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_update_ai.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_confuseray_object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_shadowball_object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_star_object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_disguise.cpp">
+      <Filter>Source Files\Attacks</Filter>
+    </ClCompile>
+    <ClCompile Include="lz4.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="labels.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="labels_f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="prebuild.py" />
+    <None Include="asm\labels.asm">
+      <Filter>asm</Filter>
+    </None>
+    <None Include="asm\rom.asm">
+      <Filter>asm</Filter>
+    </None>
+    <None Include="asm\labels_sub\map.asm">
+      <Filter>asm\labels_sub</Filter>
+    </None>
+    <None Include="asm\labels_sub\mimikyu_boss.asm">
+      <Filter>asm\labels_sub</Filter>
+    </None>
+    <None Include="asm\labels_sub\objects.asm">
+      <Filter>asm\labels_sub</Filter>
+    </None>
+    <None Include="asm\rom_sub\sprite.asm">
+      <Filter>asm\rom_sub</Filter>
+    </None>
+    <None Include="asm\labels_macros\defines.asm">
+      <Filter>asm\labels_macros</Filter>
+    </None>
+    <None Include="asm\labels_macros\map_cutscene_macros.asm">
+      <Filter>asm\labels_macros</Filter>
+    </None>
+    <None Include="asm\labels_macros\map_flag_listener_macros.asm">
+      <Filter>asm\labels_macros</Filter>
+    </None>
+    <None Include="asm\labels_macros\npc_macros.asm">
+      <Filter>asm\labels_macros</Filter>
+    </None>
+  </ItemGroup>
+</Project>

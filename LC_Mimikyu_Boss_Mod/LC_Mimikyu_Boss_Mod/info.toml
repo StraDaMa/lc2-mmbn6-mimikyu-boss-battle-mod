@@ -1,0 +1,5 @@
+title = "Mimikyu Boss Fight Mod"
+version = "0.0.2"
+authors = [ "Greiga Master", "MegaRockEXE", "joshR691", "れーす race"]
+unsafe = true
+requires_game = ["Vol2"]
