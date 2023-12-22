@@ -1,4 +1,4 @@
-# [MMBBNLC2] Mega Man Battle Network 6 - Mimikyu Boss Battle
+# [MMBNLC2] Mega Man Battle Network 6 - Mimikyu Boss Battle
 
 ![Pikachu out of battle](https://i.imgur.com/FWrn647m.png)
 ![Pikachu out of battle Japanese](https://i.imgur.com/kAR5Sdem.png)
@@ -7,7 +7,7 @@
 
 Introduction:
 -------------
-Issue Tracker and Releases for the Mimikyu Boss Battle Mod for Mega Man Battle Network Legacy Collection Vol.2
+Source Code, Issue Tracker, and Releases for the Mimikyu Boss Battle Mod for Mega Man Battle Network Legacy Collection Vol.2
 
 This mod implements a Mimikyu boss fight in Mega Man Battle Network 6 Cybeast Falzar/Gregar. This boss fight can be found as a free-fight in Lan's Room. Pikachu replaces the TomahawkMan boss fight in Cybeast Gregar, and ElecMan boss fight in Cybeast Falzar. This mod has the Japanese Translation from the Pikachu Boss Fight mod.
 
