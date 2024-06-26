@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GbaState.h"
 
-static std::array<uint32_t, 5> storedRegisters;
+std::array<uint32_t, 5> storedRegisters;
 
 // Functions that are directly called from existing code
 // Expect these registers to keep their values

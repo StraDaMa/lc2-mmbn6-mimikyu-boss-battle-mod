@@ -9,7 +9,7 @@
 
 typedef uint32_t(*(*BNFuncPtr))(GbaState*);
 
-static int init_mod_resources(GbaState* gba)
+static void init_mod_resources(GbaState* gba)
 {
     uint8_t* ramBase = gba->ramBase;
     uint32_t labelsFreeSpace = 0xF2B00;
@@ -174,10 +174,9 @@ static int init_mod_resources(GbaState* gba)
     shl_sub_ShlInitDataSet                 = *(BNFuncPtr)(ramBase + EXE6G_shl_sub_ShlInitDataSet);
     sound_SoundSeReq                       = *(BNFuncPtr)(ramBase + EXE6G_sound_SoundSeReq);
     sub1_CalcTrajectory4                   = *(BNFuncPtr)(ramBase + EXE6G_sub1_CalcTrajectory4);
-    return rand_RandInit(gba);
 }
 
-static int init_mod_resources_f(GbaState* gba)
+static void init_mod_resources_f(GbaState* gba)
 {
     uint8_t* ramBase = gba->ramBase;
     uint32_t labelsFreeSpace = 0xF2B00;
@@ -343,54 +342,41 @@ static int init_mod_resources_f(GbaState* gba)
     shl_sub_ShlInitDataSet                 = *(BNFuncPtr)(ramBase + EXE6F_shl_sub_ShlInitDataSet);
     sound_SoundSeReq                       = *(BNFuncPtr)(ramBase + EXE6F_sound_SoundSeReq);
     sub1_CalcTrajectory4                   = *(BNFuncPtr)(ramBase + EXE6F_sub1_CalcTrajectory4);
-    return rand_RandInit(gba);
 }
 
 uint8_t* gregarHookPtr = nullptr;
 uint8_t* falzarHookPtr = nullptr;
 
-EXTERN_DLL_EXPORT int luaopen_LC_Mimikyu_Boss_Mod(void* unused) {
-    std::array<uint8_t, 16> hookBase{
-        0x48, 0xB8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,  //mov rax, functionPointer
-        0xFF, 0xD0,                                                  //call rax
-        0x90, 0x90, 0x90, 0x90,                                      //nop nop nop nop
-    };
-    DWORD oldPerms;
-    *(uint64_t*)&hookBase[2] = (uint64_t)&init_mod_resources;
-    uint8_t* gregarHook = (uint8_t*)gregarHookPtr;
-    VirtualProtect(gregarHook, 16, PAGE_EXECUTE_READWRITE, &oldPerms);
-    memcpy(gregarHook, hookBase.data(), 16);
-    VirtualProtect(gregarHook, 16, oldPerms, &oldPerms);
+enum class MMBNGame : int {
+    BN1 = 0,
+    Unused,
+    BN2,
+    BN3_White,
+    BN3_Blue,
+    BN4_RedSun,
+    BN4_BlueMoon,
+    BN5_ProtoMan,
+    BN5_Colonel,
+    BN6_Gregar,
+    BN6_Falzar,
+};
 
-    *(uint64_t*)&hookBase[2] = (uint64_t)&init_mod_resources_f;
-    uint8_t* falzarHook = (uint8_t*)falzarHookPtr;
-    VirtualProtect(falzarHook, 16, PAGE_EXECUTE_READWRITE, &oldPerms);
-    memcpy(falzarHook, hookBase.data(), 16);
-    VirtualProtect(falzarHook, 16, oldPerms, &oldPerms);
-    return 0;
+EXTERN_DLL_EXPORT void on_game_load(MMBNGame game, GbaState* gba) {
+    switch (game)
+    {
+    case MMBNGame::BN6_Gregar:
+        init_mod_resources(gba);
+        break;
+    case MMBNGame::BN6_Falzar:
+        init_mod_resources_f(gba);
+        break;
+    default:
+        break;
+    }
 }
 
-static uint8_t* find_with_mask(uint8_t* memory, uint8_t* memory_end,
-    const uint8_t* search, const uint32_t search_length,
-    const uint8_t ignore_value) {
-    // Loop through each position in memory
-    while (memory <= memory_end - search_length)
-    {
-        bool match = true;
-        // Loop through each uint8_t in the search bytes
-        for (uint32_t j = 0; j < search_length; j++) {
-            // Check if the value is ignored or matches
-            if ((search[j] != ignore_value) && (memory[j] != search[j])) {
-                match = false;
-                break;
-            }
-        }
-        if (match)
-            return memory;
-        memory++;
-    }
-    // Return nullptr if no match is found
-    return nullptr;
+EXTERN_DLL_EXPORT int luaopen_LC_Mimikyu_Boss_Mod(void* unused) {
+    return 0;
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
@@ -408,35 +394,6 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         {
             return FALSE;
         }
-        MODULEINFO mi = {};
-        HANDLE process = GetCurrentProcess();
-        GetModuleInformation(process, exeBase, &mi, sizeof(mi));
-
-        uint8_t* exeBasePtr = (uint8_t*)exeBase;
-        //E8 ?? ?? ?? ?? 3D A3 1C 00 00 0F 85 CA 05 00 00
-        const std::array<uint8_t, 16> searchBytes = {
-            0xE8, 0xFF, 0xFF, 0xFF, 0xFF,            //CALL rand_RandInit
-            0x3D, 0xA3, 0x1C, 0x00, 0x00,            //CMP EAX,0x1CA3
-            0x0F, 0x85, 0xCA, 0x05, 0x00, 0x00,      //JNZ
-        };
-        // Just search everything
-        uint8_t* exePtr = exeBasePtr + 0x00;
-        uint8_t* exeEndPtr = exeBasePtr + mi.SizeOfImage;
-        // First result for these bytes is gregar
-        gregarHookPtr = find_with_mask(exePtr, exeEndPtr,
-            searchBytes.data(), searchBytes.size(), 0xFF);
-        if (gregarHookPtr == nullptr)
-            return false;
-        // Second result for these bytes is falzar
-        falzarHookPtr = find_with_mask(gregarHookPtr + searchBytes.size(), exeEndPtr,
-            searchBytes.data(), searchBytes.size(), 0xFF);
-        if (falzarHookPtr == nullptr)
-            return false;
-        // There should be no more results for this
-        uint8_t* testHookPtr = find_with_mask(falzarHookPtr + searchBytes.size(), exeEndPtr,
-            searchBytes.data(), searchBytes.size(), 0xFF);
-        if (testHookPtr != nullptr)
-            return false;
     }
     break;
     case DLL_THREAD_ATTACH:
