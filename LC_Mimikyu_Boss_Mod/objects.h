@@ -6,7 +6,9 @@ enum MIMIKYU_MULTIOBJ
 {
     MIMIKYU_MULTIOBJ_SHADOWBALL = 0x00,
     MIMIKYU_MULTIOBJ_CONFUSERAY,
-    MIMIKYU_MULTIOBJ_STAR
+    MIMIKYU_MULTIOBJ_STAR,
+    MIMIKYU_MULTIOBJ_DUSKBALL,
+    MIMIKYU_MULTIOBJ_DUSKBALL_EFFECT,
 };
 
 struct BattleObject
@@ -23,7 +25,8 @@ struct BattleObject
     uint8_t substate; //09
     uint8_t substate2; //0A
     uint8_t substate3; //0B
-    uint8_t padding[0x4]; //0C-0F
+    uint8_t substate4; //0C
+    uint8_t padding[0x3]; //0D-0F
     uint8_t animation; //10
     uint8_t previousAnimation; //11
     uint8_t panelX; //12

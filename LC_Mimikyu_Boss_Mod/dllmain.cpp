@@ -1,5 +1,6 @@
 // dllmain.cpp : Defines the entry point for the DLL application.
 #include "pch.h"
+#include "audio.h"
 #include "map.h"
 #include "mimikyu.h"
 #include "objects.h"
@@ -40,6 +41,7 @@ static void init_mod_resources(GbaState* gba)
 
     // mimikyu_boss.asm
     // Set function pointers used by boss
+    *(BNFuncPtr)(ramBase + labels_mimikyu_intro_ptr) = mimikyu_intro;
     *(BNFuncPtr)(ramBase + labels_mimikyu_update_ai_ptr) = mimikyu_update_ai;
     *(BNFuncPtr)(ramBase + labels_mimikyu_move_ptr) = mimikyu_move;
     *(BNFuncPtr)(ramBase + labels_mimikyu_shadowball_ptr) = mimikyu_shadowball;
@@ -119,26 +121,30 @@ static void init_mod_resources(GbaState* gba)
     *(uint32_t*)(ramBase + 0x76A04) = rom_sprite_mimikyu;
     *(uint32_t*)(ramBase + 0x76E74) = rom_sprite_pikachu_ow;
     // Get this version's functions
-    block_sub1_CheckLineHeadBlock          = *(BNFuncPtr)(ramBase + EXE6G_block_sub1_CheckLineHeadBlock);
     block_sub_BlockFlash                   = *(BNFuncPtr)(ramBase + EXE6G_block_sub_BlockFlash);
     block_sub_BlockInScreenCheck           = *(BNFuncPtr)(ramBase + EXE6G_block_sub_BlockInScreenCheck);
     block_sub_BlockInScreenCheckSub        = *(BNFuncPtr)(ramBase + EXE6G_block_sub_BlockInScreenCheckSub);
     block_sub_HitBlockFlash                = *(BNFuncPtr)(ramBase + EXE6G_block_sub_HitBlockFlash);
     block_sub_HitBlockFlashSub             = *(BNFuncPtr)(ramBase + EXE6G_block_sub_HitBlockFlashSub);
+    block_sub1_CheckLineHeadBlock          = *(BNFuncPtr)(ramBase + EXE6G_block_sub1_CheckLineHeadBlock);
     bs0batk_Bs0bShiftPosCheck              = *(BNFuncPtr)(ramBase + EXE6G_bs0batk_Bs0bShiftPosCheck);
     btl_sub_BattleEndCheck                 = *(BNFuncPtr)(ramBase + EXE6G_btl_sub_BattleEndCheck);
-    btlhit0_BattleHitOpen                  = *(BNFuncPtr)(ramBase + EXE6G_btlhit0_BattleHitOpen);
-    btlhit_sub1_BattleHitAbnormalStatusSet = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitAbnormalStatusSet);
-    btlhit_sub1_BattleHitHitMarkCheck      = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitHitMarkCheck);
-    btlhit_sub1_BattleHitStatusFlagOff     = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitStatusFlagOff);
-    btlhit_sub1_BattleHitStatusFlagOn      = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitStatusFlagOn);
+    btl_sub1_CheckEmActionEnable           = *(BNFuncPtr)(ramBase + EXE6G_btl_sub1_CheckEmActionEnable);
+    btl_sub1_CloseEmAction                 = *(BNFuncPtr)(ramBase + EXE6G_btl_sub1_CloseEmAction);
+    btl_sub1_EntryEmAction                 = *(BNFuncPtr)(ramBase + EXE6G_btl_sub1_EntryEmAction);
     btlhit_sub_BattleHitBlockPosSet        = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub_BattleHitBlockPosSet);
     btlhit_sub_BattleHitCheck              = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub_BattleHitCheck);
     btlhit_sub_BattleHitDataSet            = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub_BattleHitDataSet);
     btlhit_sub_BattleHitOff                = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub_BattleHitOff);
     btlhit_sub_BattleHitOn                 = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub_BattleHitOn);
     btlhit_sub_BattleHitSet                = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub_BattleHitSet);
+    btlhit_sub1_BattleHitAbnormalStatusSet = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitAbnormalStatusSet);
+    btlhit_sub1_BattleHitHitMarkCheck      = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitHitMarkCheck);
+    btlhit_sub1_BattleHitStatusFlagOff     = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitStatusFlagOff);
+    btlhit_sub1_BattleHitStatusFlagOn      = *(BNFuncPtr)(ramBase + EXE6G_btlhit_sub1_BattleHitStatusFlagOn);
+    btlhit0_BattleHitOpen                  = *(BNFuncPtr)(ramBase + EXE6G_btlhit0_BattleHitOpen);
     btlobj_sub_BattleObjCharMove           = *(BNFuncPtr)(ramBase + EXE6G_btlobj_sub_BattleObjCharMove);
+    btlobj_sub_BattleObjCharMove5          = *(BNFuncPtr)(ramBase + EXE6G_btlobj_sub_BattleObjCharMove5);
     efc00_SetEfc00                         = *(BNFuncPtr)(ramBase + EXE6G_efc00_SetEfc00);
     efc28_SetEfc28                         = *(BNFuncPtr)(ramBase + EXE6G_efc28_SetEfc28);
     em_sub_BlockToPos                      = *(BNFuncPtr)(ramBase + EXE6G_em_sub_BlockToPos);
@@ -148,11 +154,12 @@ static void init_mod_resources(GbaState* gba)
     em_sub_EnemyShiftEnableCheck           = *(BNFuncPtr)(ramBase + EXE6G_em_sub_EnemyShiftEnableCheck);
     em_sub_GetBlockPos                     = *(BNFuncPtr)(ramBase + EXE6G_em_sub_GetBlockPos);
     em_sub_PosToBlock                      = *(BNFuncPtr)(ramBase + EXE6G_em_sub_PosToBlock);
+    emcomm_EmCommonEntry2_02               = *(BNFuncPtr)(ramBase + EXE6G_emcomm_EmCommonEntry2_02);
     emcomm_ShlCommonExit                   = *(BNFuncPtr)(ramBase + EXE6G_emcomm_ShlCommonExit);
     fade_FadeSet                           = *(BNFuncPtr)(ramBase + EXE6G_fade_FadeSet);
     game_sub_GameBattleEnterSub            = *(BNFuncPtr)(ramBase + EXE6G_game_sub_GameBattleEnterSub);
-    navi_sub2_GetNaviAdrs2                 = *(BNFuncPtr)(ramBase + EXE6G_navi_sub2_GetNaviAdrs2);
     navi_sub_NaviCounterTimerSet           = *(BNFuncPtr)(ramBase + EXE6G_navi_sub_NaviCounterTimerSet);
+    navi_sub2_GetNaviAdrs2                 = *(BNFuncPtr)(ramBase + EXE6G_navi_sub2_GetNaviAdrs2);
     naviatk_sub_EmAtkReset                 = *(BNFuncPtr)(ramBase + EXE6G_naviatk_sub_EmAtkReset);
     naviatk_sub_EmAtkSet                   = *(BNFuncPtr)(ramBase + EXE6G_naviatk_sub_EmAtkSet);
     naviatk_sub_EmShiftAtkSet              = *(BNFuncPtr)(ramBase + EXE6G_naviatk_sub_EmShiftAtkSet);
@@ -163,16 +170,18 @@ static void init_mod_resources(GbaState* gba)
     obj_sub_ObjNoShadow                    = *(BNFuncPtr)(ramBase + EXE6G_obj_sub_ObjNoShadow);
     obj_sub_ObjRotCalc                     = *(BNFuncPtr)(ramBase + EXE6G_obj_sub_ObjRotCalc);
     obj_sub_ObjRotOpen                     = *(BNFuncPtr)(ramBase + EXE6G_obj_sub_ObjRotOpen);
+    obj_sub_ObjShadowSet                   = *(BNFuncPtr)(ramBase + EXE6G_obj_sub_ObjShadowSet);
     objtrans_ObjCharInit                   = *(BNFuncPtr)(ramBase + EXE6G_objtrans_ObjCharInit);
     objtrans_ObjCharSet                    = *(BNFuncPtr)(ramBase + EXE6G_objtrans_ObjCharSet);
     rand_Rand2                             = *(BNFuncPtr)(ramBase + EXE6G_rand_Rand2);
     rand_RandInit                          = *(BNFuncPtr)(ramBase + EXE6G_rand_RandInit);
     reserve_ReserveReset                   = *(BNFuncPtr)(ramBase + EXE6G_reserve_ReserveReset);
     reserve_ReserveSet                     = *(BNFuncPtr)(ramBase + EXE6G_reserve_ReserveSet);
+    shl_sub_ShlInitDataSet                 = *(BNFuncPtr)(ramBase + EXE6G_shl_sub_ShlInitDataSet);
     shl03_SetShl03                         = *(BNFuncPtr)(ramBase + EXE6G_shl03_SetShl03);
     shl96_SetShl96                         = *(BNFuncPtr)(ramBase + EXE6G_shl96_SetShl96);
-    shl_sub_ShlInitDataSet                 = *(BNFuncPtr)(ramBase + EXE6G_shl_sub_ShlInitDataSet);
     sound_SoundSeReq                       = *(BNFuncPtr)(ramBase + EXE6G_sound_SoundSeReq);
+    sub1_BattleReportFlagGet               = *(BNFuncPtr)(ramBase + EXE6G_sub1_BattleReportFlagGet);
     sub1_CalcTrajectory4                   = *(BNFuncPtr)(ramBase + EXE6G_sub1_CalcTrajectory4);
 }
 
@@ -207,6 +216,7 @@ static void init_mod_resources_f(GbaState* gba)
 
     // mimikyu_boss.asm
     // Set function pointers used by boss
+    *(BNFuncPtr)(ramBase + labels_f_mimikyu_intro_ptr) = mimikyu_intro;
     *(BNFuncPtr)(ramBase + labels_f_mimikyu_update_ai_ptr) = mimikyu_update_ai;
     *(BNFuncPtr)(ramBase + labels_f_mimikyu_move_ptr) = mimikyu_move;
     *(BNFuncPtr)(ramBase + labels_f_mimikyu_shadowball_ptr) = mimikyu_shadowball;
@@ -287,26 +297,30 @@ static void init_mod_resources_f(GbaState* gba)
     *(uint32_t*)(ramBase + 0x7672C) = rom_sprite_mimikyu;
     *(uint32_t*)(ramBase + 0x76B9C) = rom_sprite_pikachu_ow;
     // Get this version's functions
-    block_sub1_CheckLineHeadBlock          = *(BNFuncPtr)(ramBase + EXE6F_block_sub1_CheckLineHeadBlock);
     block_sub_BlockFlash                   = *(BNFuncPtr)(ramBase + EXE6F_block_sub_BlockFlash);
     block_sub_BlockInScreenCheck           = *(BNFuncPtr)(ramBase + EXE6F_block_sub_BlockInScreenCheck);
     block_sub_BlockInScreenCheckSub        = *(BNFuncPtr)(ramBase + EXE6F_block_sub_BlockInScreenCheckSub);
     block_sub_HitBlockFlash                = *(BNFuncPtr)(ramBase + EXE6F_block_sub_HitBlockFlash);
     block_sub_HitBlockFlashSub             = *(BNFuncPtr)(ramBase + EXE6F_block_sub_HitBlockFlashSub);
+    block_sub1_CheckLineHeadBlock          = *(BNFuncPtr)(ramBase + EXE6F_block_sub1_CheckLineHeadBlock);
     bs0batk_Bs0bShiftPosCheck              = *(BNFuncPtr)(ramBase + EXE6F_bs0batk_Bs0bShiftPosCheck);
     btl_sub_BattleEndCheck                 = *(BNFuncPtr)(ramBase + EXE6F_btl_sub_BattleEndCheck);
-    btlhit0_BattleHitOpen                  = *(BNFuncPtr)(ramBase + EXE6F_btlhit0_BattleHitOpen);
-    btlhit_sub1_BattleHitAbnormalStatusSet = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitAbnormalStatusSet);
-    btlhit_sub1_BattleHitHitMarkCheck      = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitHitMarkCheck);
-    btlhit_sub1_BattleHitStatusFlagOff     = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitStatusFlagOff);
-    btlhit_sub1_BattleHitStatusFlagOn      = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitStatusFlagOn);
+    btl_sub1_CheckEmActionEnable           = *(BNFuncPtr)(ramBase + EXE6F_btl_sub1_CheckEmActionEnable);
+    btl_sub1_CloseEmAction                 = *(BNFuncPtr)(ramBase + EXE6F_btl_sub1_CloseEmAction);
+    btl_sub1_EntryEmAction                 = *(BNFuncPtr)(ramBase + EXE6F_btl_sub1_EntryEmAction);
     btlhit_sub_BattleHitBlockPosSet        = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub_BattleHitBlockPosSet);
     btlhit_sub_BattleHitCheck              = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub_BattleHitCheck);
     btlhit_sub_BattleHitDataSet            = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub_BattleHitDataSet);
     btlhit_sub_BattleHitOff                = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub_BattleHitOff);
     btlhit_sub_BattleHitOn                 = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub_BattleHitOn);
     btlhit_sub_BattleHitSet                = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub_BattleHitSet);
+    btlhit_sub1_BattleHitAbnormalStatusSet = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitAbnormalStatusSet);
+    btlhit_sub1_BattleHitHitMarkCheck      = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitHitMarkCheck);
+    btlhit_sub1_BattleHitStatusFlagOff     = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitStatusFlagOff);
+    btlhit_sub1_BattleHitStatusFlagOn      = *(BNFuncPtr)(ramBase + EXE6F_btlhit_sub1_BattleHitStatusFlagOn);
+    btlhit0_BattleHitOpen                  = *(BNFuncPtr)(ramBase + EXE6F_btlhit0_BattleHitOpen);
     btlobj_sub_BattleObjCharMove           = *(BNFuncPtr)(ramBase + EXE6F_btlobj_sub_BattleObjCharMove);
+    btlobj_sub_BattleObjCharMove5          = *(BNFuncPtr)(ramBase + EXE6F_btlobj_sub_BattleObjCharMove5);
     efc00_SetEfc00                         = *(BNFuncPtr)(ramBase + EXE6F_efc00_SetEfc00);
     efc28_SetEfc28                         = *(BNFuncPtr)(ramBase + EXE6F_efc28_SetEfc28);
     em_sub_BlockToPos                      = *(BNFuncPtr)(ramBase + EXE6F_em_sub_BlockToPos);
@@ -316,11 +330,12 @@ static void init_mod_resources_f(GbaState* gba)
     em_sub_EnemyShiftEnableCheck           = *(BNFuncPtr)(ramBase + EXE6F_em_sub_EnemyShiftEnableCheck);
     em_sub_GetBlockPos                     = *(BNFuncPtr)(ramBase + EXE6F_em_sub_GetBlockPos);
     em_sub_PosToBlock                      = *(BNFuncPtr)(ramBase + EXE6F_em_sub_PosToBlock);
+    emcomm_EmCommonEntry2_02               = *(BNFuncPtr)(ramBase + EXE6F_emcomm_EmCommonEntry2_02);
     emcomm_ShlCommonExit                   = *(BNFuncPtr)(ramBase + EXE6F_emcomm_ShlCommonExit);
     fade_FadeSet                           = *(BNFuncPtr)(ramBase + EXE6F_fade_FadeSet);
     game_sub_GameBattleEnterSub            = *(BNFuncPtr)(ramBase + EXE6F_game_sub_GameBattleEnterSub);
-    navi_sub2_GetNaviAdrs2                 = *(BNFuncPtr)(ramBase + EXE6F_navi_sub2_GetNaviAdrs2);
     navi_sub_NaviCounterTimerSet           = *(BNFuncPtr)(ramBase + EXE6F_navi_sub_NaviCounterTimerSet);
+    navi_sub2_GetNaviAdrs2                 = *(BNFuncPtr)(ramBase + EXE6F_navi_sub2_GetNaviAdrs2);
     naviatk_sub_EmAtkReset                 = *(BNFuncPtr)(ramBase + EXE6F_naviatk_sub_EmAtkReset);
     naviatk_sub_EmAtkSet                   = *(BNFuncPtr)(ramBase + EXE6F_naviatk_sub_EmAtkSet);
     naviatk_sub_EmShiftAtkSet              = *(BNFuncPtr)(ramBase + EXE6F_naviatk_sub_EmShiftAtkSet);
@@ -331,21 +346,20 @@ static void init_mod_resources_f(GbaState* gba)
     obj_sub_ObjNoShadow                    = *(BNFuncPtr)(ramBase + EXE6F_obj_sub_ObjNoShadow);
     obj_sub_ObjRotCalc                     = *(BNFuncPtr)(ramBase + EXE6F_obj_sub_ObjRotCalc);
     obj_sub_ObjRotOpen                     = *(BNFuncPtr)(ramBase + EXE6F_obj_sub_ObjRotOpen);
+    obj_sub_ObjShadowSet                   = *(BNFuncPtr)(ramBase + EXE6F_obj_sub_ObjShadowSet);
     objtrans_ObjCharInit                   = *(BNFuncPtr)(ramBase + EXE6F_objtrans_ObjCharInit);
     objtrans_ObjCharSet                    = *(BNFuncPtr)(ramBase + EXE6F_objtrans_ObjCharSet);
     rand_Rand2                             = *(BNFuncPtr)(ramBase + EXE6F_rand_Rand2);
     rand_RandInit                          = *(BNFuncPtr)(ramBase + EXE6F_rand_RandInit);
     reserve_ReserveReset                   = *(BNFuncPtr)(ramBase + EXE6F_reserve_ReserveReset);
     reserve_ReserveSet                     = *(BNFuncPtr)(ramBase + EXE6F_reserve_ReserveSet);
+    shl_sub_ShlInitDataSet                 = *(BNFuncPtr)(ramBase + EXE6F_shl_sub_ShlInitDataSet);
     shl03_SetShl03                         = *(BNFuncPtr)(ramBase + EXE6F_shl03_SetShl03);
     shl96_SetShl96                         = *(BNFuncPtr)(ramBase + EXE6F_shl96_SetShl96);
-    shl_sub_ShlInitDataSet                 = *(BNFuncPtr)(ramBase + EXE6F_shl_sub_ShlInitDataSet);
     sound_SoundSeReq                       = *(BNFuncPtr)(ramBase + EXE6F_sound_SoundSeReq);
+    sub1_BattleReportFlagGet               = *(BNFuncPtr)(ramBase + EXE6F_sub1_BattleReportFlagGet);
     sub1_CalcTrajectory4                   = *(BNFuncPtr)(ramBase + EXE6F_sub1_CalcTrajectory4);
 }
-
-uint8_t* gregarHookPtr = nullptr;
-uint8_t* falzarHookPtr = nullptr;
 
 enum class MMBNGame : int {
     BN1 = 0,
@@ -393,6 +407,53 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         if (exeBase == NULL)
         {
             return FALSE;
+        }
+        MODULEINFO mi = {};
+        HANDLE process = GetCurrentProcess();
+        GetModuleInformation(process, exeBase, &mi, sizeof(mi));
+        // Just search everything
+        uint8_t* exeBasePtr = (uint8_t*)exeBase;
+        uint8_t* exePtr = exeBasePtr;
+        uint8_t* exeEndPtr = exeBasePtr + mi.SizeOfImage;
+        const static std::array<uint8_t, 16> lc_post_sound_event_pattern = {
+            0x48, 0x89, 0x5C, 0x24, 0x08,
+            0x57,
+            0x48, 0x83, 0xEC, 0x40, 0x8B, 0xD9,
+            0x0F, 0xB6, 0xFA,
+            0x48
+        };
+        exePtr = std::search(
+            exePtr, exeEndPtr,
+            lc_post_sound_event_pattern.data(), lc_post_sound_event_pattern.data() + lc_post_sound_event_pattern.size()
+        );
+        if (exePtr == exeEndPtr) {
+            return FALSE;
+        }
+        lc_post_sound_event = (void(*)(uint32_t, int))exePtr;
+        const static std::array<uint8_t, 16> soundTablePattern = {
+            0x00, 0x00, 0x00, 0x00,
+            0x39, 0xB5, 0xD3, 0xE7,
+            0xD9, 0x20, 0x17, 0x90,
+            0xB1, 0xE9, 0x4D, 0x11
+        };
+        std::array<uint8_t*, 2> soundTableOffsets = { 0, 0 };
+        // Sound tables should be after
+        // Check if all tables are found
+        for (size_t i = 0; i < soundTableOffsets.size(); i++)
+        {
+            exePtr = std::search(
+                exePtr + soundTablePattern.size(), exeEndPtr,
+                soundTablePattern.data(), soundTablePattern.data() + soundTablePattern.size()
+            );
+            if (exePtr == exeEndPtr) {
+                return FALSE;
+            }
+            soundTableOffsets[i] = exePtr;
+        }
+        // Add sound to table
+        for (size_t i = 0; i < soundTableOffsets.size(); i++)
+        {
+            *(uint32_t*)(soundTableOffsets[i] + 0x22 * 4) = PLAY_WEMS_KAHUNA_BATTLE_WEM;
         }
     }
     break;

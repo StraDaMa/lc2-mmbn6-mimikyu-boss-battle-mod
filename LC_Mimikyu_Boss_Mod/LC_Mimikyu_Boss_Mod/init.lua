@@ -33,4 +33,7 @@ chaudloader.util.edit_mpak(exe6f, "exe6f/data/msg/message_chs", function(mpak)
 	chaudloader.util.merge_msgs_from_mod_directory(mpak, "msg_chs_f")
 end)
 
+chaudloader.bnk.load_bnk("audio/mimikyu_mod.bnk")
+chaudloader.pck.load_pck("audio/mimikyu_mod.pck")
+
 require("LC_Mimikyu_Boss_Mod")

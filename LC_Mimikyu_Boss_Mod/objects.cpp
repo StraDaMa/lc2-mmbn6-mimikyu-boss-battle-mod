@@ -3,6 +3,8 @@
 #include "mimikyu_shadowball_object.h"
 #include "mimikyu_confuseray_object.h"
 #include "mimikyu_star_object.h"
+#include "duskball_object.h"
+#include "duskball_effect_object.h"
 
 // Putting all new objects used by Mimikyu in a single object
 // so each object doesnt take up an object slot
@@ -22,7 +24,14 @@ uint32_t mimikyu_multiobject3_main(GbaState* gba)
     case MIMIKYU_MULTIOBJ_STAR:
         mimikyu_star_object_main(gba);
         break;
+    case MIMIKYU_MULTIOBJ_DUSKBALL:
+        duskball_object_main(gba);
+        break;
+    case MIMIKYU_MULTIOBJ_DUSKBALL_EFFECT:
+        duskball_effect_object_main(gba);
+        break;
     }
+
     GbaStateRestoreAllEssential(gba);
     return gba->r15;
 }

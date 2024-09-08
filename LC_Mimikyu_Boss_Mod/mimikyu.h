@@ -2,6 +2,7 @@
 #include "GbaState.h"
 #include "objects.h"
 
+uint32_t mimikyu_intro(GbaState* gba);
 uint32_t mimikyu_update_ai(GbaState* gba);
 uint32_t mimikyu_move(GbaState* gba);
 uint32_t mimikyu_shadowball(GbaState* gba);
@@ -41,6 +42,7 @@ struct MimikyuAttackState
     uint8_t movePanelY; //15
     uint8_t padding2[0x16]; //16-2B
     uint32_t enemyOffset; //2C
+    uint32_t attackObject; //30
 };
 
 // Constants
@@ -85,8 +87,8 @@ enum MIMIKYU_ANIMATION
     MIMIKYU_ANIMATION_STAR,
     MIMIKYU_ANIMATION_SHADOWBALL,
     MIMIKYU_ANIMATION_CONFUSERAY,
+    MIMIKYU_ANIMATION_DUSKBALL,
 };
-
 
 //Mimikyu Attack Macros
 enum MIMIKYU_ATTACK

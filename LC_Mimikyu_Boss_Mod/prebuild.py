@@ -69,9 +69,25 @@ for tplDir, msgDir in textDirs:
     stdout = open(f"tpl/log/{baseName}.stdout.txt", "w"),
     stderr = open(f"tpl/log/{baseName}.stderr.txt", "w"))
     processList.append(p)
-#wait for everything to finish
+# wait for everything to finish
 for p in processList:
     p.wait()
+
+# build bnk and pck files
+os.makedirs("LC_Mimikyu_Boss_Mod/audio", exist_ok = True)
+subprocess.run([
+    "python", "make_bnk.py",
+    "--header_file", "../audio.h",
+    "--exclude_bgm",
+    "bnk_wem_table.txt",
+    "../LC_Mimikyu_Boss_Mod/audio/mimikyu_mod.bnk"
+    ], check=True, cwd="audio")
+subprocess.run([
+    "python", "make_pck.py",
+    "pck_wem_table.txt",
+    "../LC_Mimikyu_Boss_Mod/audio/mimikyu_mod.pck"
+    ], check=True, cwd="audio")
+
 
 # Process asm to bin and convert to header / cpp file
 os.makedirs("asm/out", exist_ok = True)

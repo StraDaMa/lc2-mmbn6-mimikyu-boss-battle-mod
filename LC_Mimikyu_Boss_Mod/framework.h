@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <array>
+#include <algorithm>
 #include <time.h>
 #include <winternl.h>
 #include "GbaState.h"

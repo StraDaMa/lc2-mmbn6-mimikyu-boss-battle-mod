@@ -235,6 +235,9 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="audio.h" />
+    <ClInclude Include="duskball_effect_object.h" />
+    <ClInclude Include="duskball_object.h" />
     <ClInclude Include="EXE6_F_functions.h" />
     <ClInclude Include="EXE6_G_functions.h" />
     <ClInclude Include="framework.h" />
@@ -253,6 +256,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="duskball_effect_object.cpp" />
+    <ClCompile Include="duskball_object.cpp" />
     <ClCompile Include="GbaState.cpp" />
     <ClCompile Include="labels.cpp" />
     <ClCompile Include="labels_f.cpp" />
@@ -262,6 +267,7 @@
     <ClCompile Include="mimikyu_confuseray.cpp" />
     <ClCompile Include="mimikyu_confuseray_object.cpp" />
     <ClCompile Include="mimikyu_disguise.cpp" />
+    <ClCompile Include="mimikyu_intro.cpp" />
     <ClCompile Include="mimikyu_move.cpp" />
     <ClCompile Include="mimikyu_playrough.cpp" />
     <ClCompile Include="mimikyu_shadowball.cpp" />

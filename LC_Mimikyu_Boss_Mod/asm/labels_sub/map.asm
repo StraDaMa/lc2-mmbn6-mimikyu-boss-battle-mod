@@ -1,20 +1,20 @@
 .if _version == 1
-    @LANS_ROOM_ORIGINAL_NPC equ 0xAA318
-    @LANS_ROOM_FL_INIT_RESUME1 equ 0xAA748
-    @LANS_ROOM_FL_INIT_RESUME2 equ 0xAA728
-    @LANS_ROOM_FL_INIT_END equ 0xAA9CC
-    @LANS_ROOM_FL_UPDATE_RESUME1 equ 0x0AB468
+    @LANS_ROOM_ORIGINAL_NPC      equ 0xAA318
+    @LANS_ROOM_FL_INIT_RESUME1   equ 0xAA748
+    @LANS_ROOM_FL_INIT_RESUME2   equ 0xAA728
+    @LANS_ROOM_FL_INIT_END       equ 0xAA9CC
+    @LANS_ROOM_FL_UPDATE_RESUME1 equ 0xAB468
     @LANS_ROOM_FL_UPDATE_RESUME2 equ 0xAA9D8
-    @LANS_ROOM_FL_UPDATE_END equ 0xAAA08
-    @ENEMY_ID equ 0x0107
+    @LANS_ROOM_FL_UPDATE_END     equ 0xAAA08
+    @ENEMY_ID                    equ 0x0107
 .else
-    @LANS_ROOM_ORIGINAL_NPC equ 0xAAD80
-    @LANS_ROOM_FL_INIT_RESUME1 equ 0xAB1A8
-    @LANS_ROOM_FL_INIT_RESUME2 equ 0xAB188
-    @LANS_ROOM_FL_INIT_END equ 0xAB42C
+    @LANS_ROOM_ORIGINAL_NPC      equ 0xAAD80
+    @LANS_ROOM_FL_INIT_RESUME1   equ 0xAB1A8
+    @LANS_ROOM_FL_INIT_RESUME2   equ 0xAB188
+    @LANS_ROOM_FL_INIT_END       equ 0xAB42C
     @LANS_ROOM_FL_UPDATE_RESUME1 equ 0xAB468
     @LANS_ROOM_FL_UPDATE_RESUME2 equ 0xAB438
-    @LANS_ROOM_FL_UPDATE_END equ 0xAB69C
+    @LANS_ROOM_FL_UPDATE_END     equ 0xAB69C
     @ENEMY_ID equ 0x125
 .endif
 
@@ -96,7 +96,7 @@ lans_room_pikachu_cutscene:
 lans_room_pikachu_battle:
     .byte 0x00 ;Battlefield
     .byte 0x00 ;unknown?
-    .byte 0x16 ;Music
+    .byte 0x22 ;Music
     .byte 0x00 ;Battle Mode
     .byte 0x14 ;Background (Graveyard Area)
     .byte 0x00 ;Battle Count

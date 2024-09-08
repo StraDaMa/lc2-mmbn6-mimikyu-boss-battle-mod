@@ -81,6 +81,15 @@
     <ClInclude Include="lz4.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="duskball_object.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="duskball_effect_object.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="audio.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -145,6 +154,15 @@
     </ClCompile>
     <ClCompile Include="labels_f.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="duskball_object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="duskball_effect_object.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="mimikyu_intro.cpp">
+      <Filter>Source Files\Attacks</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
